@@ -49,21 +49,21 @@ export const getTweet = async (id: string) => {
   // function to distinguish between external URLs and external t.co links and internal t.co links
   // (e.g. images, videos, gifs, quote tweets) and remove/replace them accordingly
   const getExternalUrls = (tweet) => {
-    const externalURLs = tweet.entities?.urls;
+    const externalURLs = tweet?.entities?.urls;
     const mappings = {};
     if (externalURLs) {
       externalURLs.map((url) => {
         mappings[`${url.url}`] =
           !url.display_url.startsWith("pic.twitter.com") &&
-          !url.display_url.startsWith("twitter.com")
+            !url.display_url.startsWith("twitter.com")
             ? `<a style='color: rgb(29,161,242); font-weight:normal; text-decoration: none' href='${url.expanded_url.replace(
-                "@",
-                "",
-              )}' target='_blank'>${url.display_url.replace("@", "")}</a>`
+              "@",
+              "",
+            )}' target='_blank'>${url.display_url.replace("@", "")}</a>`
             : "";
       });
     }
-    var processedText = tweet.text;
+    var processedText = tweet?.text ?;
     Object.entries(mappings).map(([k, v], i) => {
       processedText = processedText.replace(k, v);
     });
@@ -91,8 +91,8 @@ export const getTweet = async (id: string) => {
     polls: tweet.includes.polls || [],
     url_meta:
       media ||
-      referenced_tweets.length > 0 ||
-      tweet.data?.entities?.urls == undefined
+        referenced_tweets.length > 0 ||
+        tweet.data?.entities?.urls == undefined
         ? null
         : tweet.data.entities?.urls[0],
     referenced_tweets: referenced_tweets,

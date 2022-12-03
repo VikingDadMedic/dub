@@ -15,14 +15,10 @@ import Testimonials from "@/components/home/testimonials";
 import getTweetsMetadata, { homepageTweets } from "@/lib/twitter";
 
 export default function Home({
-  userCount,
-  stars,
-  tweets,
-}: {
-  userCount: number;
-  stars: number;
-  tweets: any;
-}) {
+      userCount,
+      stars,
+      tweets,
+    }) {
   const router = useRouter();
   const { key: stats } = router.query;
   const { setShowStatsModal, StatsModal } = useStatsModal();
@@ -51,43 +47,36 @@ export default function Home({
       <StatsModal />
       <div className="z-10">
         <Hero />
-        <Demo />
-        <Logos />
-        <Globe />
-        <Features />
-        <Testimonials userCount={userCount} tweets={tweets} />
-        <Pricing />
-        <OSS stars={stars} />
       </div>
       <Background />
     </HomeLayout>
   );
 }
 
-export async function getStaticProps() {
-  const userCount = await prisma.user.count();
+// export async function getStaticProps() {
+//   const userCount = await prisma.user.count();
 
-  const { stargazers_count: stars } = await fetch(
-    "https://api.github.com/repos/steven-tey/dub",
-    {
-      // optional – feel free to remove if you don't want to display star count
-      ...(process.env.GITHUB_OAUTH_TOKEN && {
-        headers: {
-          Authorization: `Bearer ${process.env.GITHUB_OAUTH_TOKEN}`,
-          "Content-Type": "application/json",
-        },
-      }),
-    },
-  ).then((res) => res.json());
+//   const { stargazers_count: stars } = await fetch(
+//     "https://api.github.com/repos/steven-tey/dub",
+//     {
+//       // optional – feel free to remove if you don't want to display star count
+//       ...(process.env.GITHUB_OAUTH_TOKEN && {
+//         headers: {
+//           Authorization: `Bearer ${process.env.GITHUB_OAUTH_TOKEN}`,
+//           "Content-Type": "application/json",
+//         },
+//       }),
+//     },
+//   ).then((res) => res.json());
 
-  const tweets = await getTweetsMetadata(homepageTweets);
+//   const tweets = await getTweetsMetadata(homepageTweets);
 
-  return {
-    props: {
-      userCount,
-      stars,
-      tweets,
-    },
-    revalidate: 60,
-  };
-}
+//   return {
+//     props: {
+//       userCount,
+//       stars,
+//       tweets,
+//     },
+//     revalidate: 60,
+//   };
+// }
