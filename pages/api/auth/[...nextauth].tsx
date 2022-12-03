@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
     EmailProvider({
       sendVerificationRequest({ identifier, url }) {
         sendMail({
-          subject: "Your Dub.sh Login Link",
+          subject: "Your Login Link",
           to: identifier,
           component: <LoginLink url={url} />,
         });
